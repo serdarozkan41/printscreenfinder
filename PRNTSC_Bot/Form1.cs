@@ -1,16 +1,21 @@
 ﻿using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Net;
+using System.Threading;
+using System.Windows.Forms;
 
-namespace printscreenfinder
+namespace PRNTSC_Bot
 {
-    class Program
+    public partial class Form1 : Form
     {
-        static List<string> linkerl = new List<string>();
-        static void Main(string[] args)
+        public Form1()
         {
-            char[] harfler = "defghijklmnopqrstuvwxyz".ToCharArray();
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            char[] harfler = "efghijklmnopqrstuvwxyz".ToCharArray();
             char[] rakamlar = "0123456789".ToCharArray();
             int counter = 0;
             for (int i = 0; i < harfler.Length; i++)
@@ -47,13 +52,10 @@ namespace printscreenfinder
 
                                         if (imgUrl != "//st.prntscr.com/2020/12/09/2233/img/0_173a7b_211be8ff.png")
                                         {
-                                            linkerl.Add(imgUrl);
-                                            using (WebClient client = new WebClient())
-                                            {
-                                                client.DownloadFile(
-                                                    new Uri(imgUrl),
-                                                    @"resimler\" + Guid.NewGuid() + ".png");
-                                            }
+
+                                            pictureBox1.LoadAsync(imgUrl);
+                                            Application.DoEvents();
+                                            Thread.Sleep(1000);
                                         }
                                         Console.WriteLine(imgUrl);
                                     }
@@ -72,8 +74,6 @@ namespace printscreenfinder
 
 
             }
-            Console.WriteLine("Olasılık: " + counter);
-            Console.ReadKey();
         }
     }
 }
